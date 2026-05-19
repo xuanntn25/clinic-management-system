@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Quản Lý Phòng Khám Đa Khoa</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; scroll-behavior: smooth; }
+
+        body {
+            background: linear-gradient(135deg, #f0fdfa 0%, #e0f2fe 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #1e293b;
+            overflow-x: hidden;
+        }
+
+        /* 1. HEADER & NAVIGATION */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(2, 132, 199, 0.05);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .logo-area { display: flex; align-items: center; gap: 12px; }
+        .logo-icon {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0d9488 100%);
+            color: white; width: 40px; height: 40px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 10px; font-size: 1.3rem;
+        }
+        .logo-text h1 { font-size: 1.15rem; color: #0f172a; font-weight: 800; }
+        .logo-text p { font-size: 0.75rem; color: #0d9488; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .nav-container { display: flex; align-items: center; gap: 25px; }
+
+        .nav-text-links { display: flex; gap: 20px; align-items: center; }
+        .nav-text-links a { color: #475569; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: color 0.2s; }
+        .nav-text-links a:hover { color: #0284c7; }
+
+        /* DROPDOWN MENU ĐẶT KHÁM */
+        .dropdown { position: relative; display: inline-block; }
+        .dropbtn {
+            background: #0ea5e9;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2);
+        }
+        .dropbtn:hover { background: #0284c7; transform: translateY(-1px); }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #ffffff;
+            min-width: 320px;
+            box-shadow: 0px 10px 30px rgba(15, 23, 42, 0.08);
+            border-radius: 16px;
+            margin-top: 12px;
+            overflow: hidden;
+            z-index: 1100;
+            border: 1px solid #e2e8f0;
+        }
+        .dropdown-content a {
+            color: #1e293b;
+            padding: 14px 20px;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            border-bottom: 1px solid #f1f5f9;
+            transition: background 0.2s;
+        }
+        .dropdown-content a:hover { background-color: #f8fafc; }
+        .dropdown-content a strong { color: #0f172a; font-size: 0.95rem; }
+        .dropdown-content a span { color: #64748b; font-size: 0.8rem; margin-top: 4px; line-height: 1.4; }
+
+        .dropdown-footer { background: #f8fafc; padding: 12px 20px; font-size: 0.8rem; color: #64748b; text-align: center; border-top: 1px solid #edf2f7; }
+        .dropdown:hover .dropdown-content { display: block; }
+
+        .btn-login-main { background: #ffffff; color: #0ea5e9; border: 1px solid #0ea5e9; padding: 9px 18px; font-size: 0.9rem; font-weight: 700; border-radius: 12px; text-decoration: none; transition: all 0.2s; }
+        .btn-login-main:hover { background: #f0fdfa; }
+
+        /* MAIN CONTAINER */
+        .main-container { max-width: 1140px; width: 100%; margin: 30px auto 60px auto; padding: 0 20px; flex: 1; }
+
+        /* 2. BANNER HERO */
+        .hero-section {
+            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+            border-radius: 24px; padding: 40px; margin-bottom: 40px;
+            display: flex; gap: 40px; align-items: center;
+            box-shadow: 0 10px 25px rgba(2, 132, 199, 0.05);
+        }
+        .hero-text { flex: 1.1; }
+        .hero-text h2 { font-size: 2.2rem; color: #0f172a; font-weight: 800; margin-bottom: 15px; line-height: 1.2; }
+        .hero-text h2 span { color: #0284c7; }
+        .hero-text p { color: #334155; font-size: 1.05rem; line-height: 1.6; margin-bottom: 25px; }
+        .hero-buttons { display: flex; gap: 15px; }
+        .btn-hero-primary { background: #0ea5e9; color: white; padding: 12px 24px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 0.95rem; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3); transition: all 0.2s; }
+        .btn-hero-primary:hover { background: #0284c7; }
+        .btn-hero-secondary { background: white; color: #334155; padding: 12px 24px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 0.95rem; border: 1px solid #cbd5e1; transition: all 0.2s; }
+        .btn-hero-secondary:hover { background: #f8fafc; }
+
+        .hero-image { flex: 0.9; display: flex; justify-content: center; }
+        .hero-image img { width: 100%; max-width: 440px; height: 260px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); object-fit: cover; }
+
+        /* TIÊU ĐỀ KHU VỰC */
+        .section-title { font-size: 1.4rem; font-weight: 800; color: #0f172a; margin: 40px 0 20px 0; display: flex; align-items: center; gap: 10px; }
+
+        /* 3. ĐỘI NGŨ BÁC SĨ */
+        .doctor-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
+        .doc-card {
+            background: white; border-radius: 20px; padding: 30px 25px; text-align: center;
+            border: 1px solid rgba(226, 232, 240, 0.8); box-shadow: 0 4px 15px rgba(15, 23, 42, 0.02);
+            transition: all 0.2s ease-in-out;
+            display: flex; flex-direction: column; justify-content: space-between;
+        }
+        .doc-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(2, 132, 199, 0.08); }
+        .doc-img-container { width: 110px; height: 110px; margin: 0 auto 18px auto; border-radius: 50%; overflow: hidden; border: 4px solid #f1f5f9; background: #cbd5e1; }
+        .doc-img-container img { width: 100%; height: 100%; object-fit: cover; }
+        .doc-card h4 { font-size: 1.15rem; color: #0f172a; font-weight: 700; }
+        .doc-tag { display: inline-block; padding: 4px 12px; background: #eff6ff; color: #0284c7; font-size: 0.75rem; font-weight: 700; border-radius: 50px; margin: 6px 0 12px 0; }
+        .doc-card p { font-size: 0.88rem; color: #64748b; line-height: 1.5; margin-bottom: 20px; flex-grow: 1; }
+
+        .btn-book-doc {
+            display: block; background: #ffffff; color: #0ea5e9; border: 1.5px solid #0ea5e9;
+            padding: 10px 0; border-radius: 10px; font-size: 0.9rem; font-weight: 700;
+            text-decoration: none; transition: all 0.2s;
+        }
+        .btn-book-doc:hover { background: #0ea5e9; color: white; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2); }
+
+        /* 4. BẢNG LỊCH TRỰC */
+        .schedule-panel { background: white; border-radius: 24px; padding: 35px; box-shadow: 0 10px 30px rgba(15, 23, 42, 0.02); border: 1px solid rgba(226, 232, 240, 0.8); }
+        .table-responsive { width: 100%; overflow-x: auto; margin-top: 15px; }
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.95rem; }
+        th { background: #f8fafc; color: #475569; padding: 14px 18px; font-weight: 700; border-bottom: 2px solid #e2e8f0; }
+        td { padding: 14px 18px; border-bottom: 1px solid #f1f5f9; color: #334155; }
+        tr:hover td { background: #f8fafc; }
+        .badge { padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; display: inline-block; }
+        .badge-morning { background: #fff7ed; color: #c2410c; }
+        .badge-afternoon { background: #eff6ff; color: #1d4ed8; }
+        .status-active { color: #16a34a; font-weight: 600; display: flex; align-items: center; gap: 5px; }
+        .status-active::before { content: ''; width: 8px; height: 8px; background: #16a34a; border-radius: 50px; display: inline-block; }
+
+        /* 5. CỔNG CHỨC NĂNG 3 VAI TRÒ */
+        .role-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
+        .role-card {
+            background: white; border-radius: 20px; padding: 35px 30px;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02); border: 1px solid rgba(226, 232, 240, 0.8);
+            transition: all 0.3s ease; display: flex; flex-direction: column; justify-content: space-between;
+        }
+        .role-card:hover { transform: translateY(-5px); box-shadow: 0 12px 25px rgba(15, 23, 42, 0.06); }
+        .icon-box { width: 55px; height: 55px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin-bottom: 20px; }
+        .bg-p { background: #e0f2fe; color: #0284c7; }
+        .bg-d { background: #d1fae5; color: #10b981; }
+        .bg-a { background: #f1f5f9; color: #64748b; }
+        .role-card h3 { font-size: 1.2rem; color: #0f172a; margin-bottom: 10px; font-weight: 700; }
+        .role-card p { color: #64748b; font-size: 0.9rem; line-height: 1.5; margin-bottom: 25px; }
+
+        .btn-redirect { display: block; width: 100%; padding: 12px 0; text-align: center; color: white; text-decoration: none; border-radius: 10px; font-weight: 600; font-size: 0.9rem; transition: all 0.2s; }
+        .btn-p { background: #0284c7; box-shadow: 0 4px 10px rgba(2, 132, 199, 0.15); } .btn-p:hover { background: #0369a1; }
+        .btn-d { background: #10b981; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.15); } .btn-d:hover { background: #059669; }
+        .btn-a { background: #334155; box-shadow: 0 4px 10px rgba(51, 65, 85, 0.15); } .btn-a:hover { background: #1e293b; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo-area">
+        <div class="logo-icon">🩺</div>
+        <div class="logo-text">
+            <h1>PHÒNG KHÁM ĐA KHOA</h1>
+            <p>Hệ Thống Đặt Lịch Trực Tuyến</p>
+        </div>
+    </div>
+
+    <div class="nav-container">
+        <div class="nav-text-links">
+            <a href="#intro">Giới thiệu</a>
+            <a href="#doctors">Đội ngũ bác sĩ</a>
+            <a href="#schedule">Lịch khám hôm nay</a>
+        </div>
+
+        <div class="dropdown">
+            <button class="dropbtn">Đặt khám ▾</button>
+            <div class="dropdown-content">
+                <a href="dat-lich.html">
+                    <strong>Đặt khám theo bác sĩ</strong>
+                    <span>Lựa chọn bác sĩ đầu ngành theo yêu cầu riêng</span>
+                </a>
+                <a href="dat-lich.html">
+                    <strong>Đặt khám theo chuyên khoa</strong>
+                    <span>Nội, Nhi, Sản phụ khoa, Tai mũi họng...</span>
+                </a>
+                <a href="#">
+                    <strong>Đặt khám tổng quát định kỳ</strong>
+                    <span>Gói kiểm tra sức khỏe toàn diện cho gia đình</span>
+                </a>
+                <a href="#">
+                    <strong>Đặt lịch xét nghiệm & Tiêm chủng</strong>
+                    <span>Thực hiện nhanh chóng, nhận kết quả trực tuyến</span>
+                </a>
+                <div class="dropdown-footer">Bạn cần hỗ trợ? Gọi ngay: 1900.2805</div>
+            </div>
+        </div>
+
+        <a href="#roles" class="btn-login-main">Đăng nhập</a>
+    </div>
+</header>
+
+<div class="main-container">
+
+    <section id="intro" class="hero-section">
+        <div class="hero-text">
+            <h2>Đặt lịch khám<br><span>Nhanh chóng & Dễ dàng</span></h2>
+            <p>Kết nối với hệ thống phòng khám đa khoa hiện đại, tiện nghi. Giúp bạn chủ động hoàn toàn thời gian thăm khám và chăm sóc sức khỏe tốt nhất.</p>
+            <div class="hero-buttons">
+                <a href="dat-lich.html" class="btn-hero-primary">Đặt lịch ngay</a>
+                <a href="#roles" class="btn-hero-secondary">Tìm hiểu thêm</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=500&q=80" alt="Bác sĩ phòng khám tư vấn bệnh nhân" loading="lazy">
+        </div>
+    </section>
+
+    <div class="section-title" id="doctors">👨‍⚕️ Đội Ngũ Bác Sĩ Chuyên Môn Đầu Ngành</div>
+    <div class="doctor-grid">
+        <div class="doc-card">
+            <div>
+                <div class="doc-img-container">
+                    <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=200&h=200&q=80" alt="PGS.TS Nguyễn Văn Thắng" loading="lazy">
+                </div>
+                <h4>PGS.TS Nguyễn Văn Thắng</h4>
+                <div class="doc-tag">Khoa Nội Tổng Quát</div>
+                <p>Hơn 25 năm kinh nghiệm điều trị các bệnh lý mãn tính, nguyên Trưởng khoa tại bệnh viện Bạch Mai.</p>
+            </div>
+            <a href="dat-lich.html?doctor=PGS.TS%20Nguy%E1%BB%85n%20V%C4%83n%20Th%E1%BA%AFng&dept=Khoa%20N%E1%BB%99i%20T%E1%BB%95ng%20Qu%C3%A1t" class="btn-book-doc">Đặt lịch với BS Thắng</a>
+        </div>
+
+        <div class="doc-card">
+            <div>
+                <div class="doc-img-container">
+                    <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=200&h=200&q=80" alt="ThS.BS Trần Thị Như Quỳnh" loading="lazy">
+                </div>
+                <h4>ThS.BS Trần Thị Như Quỳnh</h4>
+                <div class="doc-tag">Khoa Nhi</div>
+                <p>Chuyên gia tâm lý và sức khỏe nhi khoa, tận tâm, có hơn 12 năm kinh nghiệm công tác tại BV Nhi Đồng.</p>
+            </div>
+            <a href="dat-lich.html?doctor=ThS.BS%20Tr%E1%BA%A7n%20Th%E1%BB%8B%20Nh%C6%B0%20Qu%E1%BB%B3nh&dept=Khoa%20Nhi" class="btn-book-doc">Đặt lịch với BS Quỳnh</a>
+        </div>
+
+        <div class="doc-card">
+            <div>
+                <div class="doc-img-container">
+                    <img src="https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=200&h=200&q=80" alt="BS CKII Lê Hoàng Nam" loading="lazy">
+                </div>
+                <h4>BS CKII Lê Hoàng Nam</h4>
+                <div class="doc-tag">Khoa Tim Mạch</div>
+                <p>Chuyên gia can thiệp tim mạch và chẩn đoán hình ảnh cao cấp, tu nghiệp nhiều năm tại Cộng hòa Pháp.</p>
+            </div>
+            <a href="dat-lich.html?doctor=BS%20CKII%20L%C3%AA%20Ho%C3%A0ng%20Nam&dept=Khoa%20Tim%20M%E1%BA%A1ch" class="btn-book-doc">Đặt lịch với BS Nam</a>
+        </div>
+
+        <div class="doc-card">
+            <div>
+                <div class="doc-img-container">
+                    <img src="https://images.unsplash.com/photo-1614608682850-e0d6ed316d47?auto=format&fit=crop&w=200&h=200&q=80" alt="ThS.BS Nguyễn Hoài An" loading="lazy">
+                </div>
+                <h4>ThS.BS Nguyễn Hoài An</h4>
+                <div class="doc-tag">Khoa Sản Phụ Khoa</div>
+                <p>Chuyên khoa quản lý thai kỳ nguy cơ cao và tư vấn sức khỏe sinh sản toàn diện cho phái nữ.</p>
+            </div>
+            <a href="dat-lich.html?doctor=ThS.BS%20Nguy%E1%BB%85n%20Ho%C3%A0i%20An&dept=Khoa%20S%E1%BA%A3n%20Ph%E1%BB%A5%20Khoa" class="btn-book-doc">Đặt lịch với BS An</a>
+        </div>
+
+        <div class="doc-card">
+            <div>
+                <div class="doc-img-container">
+                    <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=200&h=200&q=80" alt="BS CK I Phạm Minh Hải" loading="lazy">
+                </div>
+                <h4>BS CK I Phạm Minh Hải</h4>
+                <div class="doc-tag">Khoa Răng Hàm Mặt</div>
+                <p>Chuyên gia thẩm mỹ răng sứ, niềng răng kỹ thuật cao và phẫu thuật chỉnh hình hàm mặt phức tạp.</p>
+            </div>
+            <a href="dat-lich.html?doctor=BS%20CK%20I%20Ph%E1%BA%A1m%20Minh%20H%E1%BA%A3i&dept=Khoa%20R%C4%83ng%20H%C3%A0m%20M%E1%BA%B7t" class="btn-book-doc">Đặt lịch với BS Hải</a>
+        </div>
+
+        <div class="doc-card">
+            <div>
+                <div class="doc-img-container">
+                    <img src="https://images.unsplash.com/photo-1637059824899-a441006a6875?auto=format&fit=crop&w=200&h=200&q=80" alt="ThS.BS Hoàng Lê Minh" loading="lazy">
+                </div>
+                <h4>ThS.BS Hoàng Lê Minh</h4>
+                <div class="doc-tag">Khoa Tai Mũi Họng</div>
+                <p>Chuyên khám, nội soi và điều trị các bệnh lý viêm xoang, thanh quản mạn tính ở cả người lớn và trẻ em.</p>
+            </div>
+            <a href="dat-lich.html?doctor=ThS.BS%20Ho%C3%A0ng%20L%C3%AA%20Minh&dept=Khoa%20Tai%20M%C5%A9i%20H%E1%BB%8Dng" class="btn-book-doc">Đặt lịch với BS Minh</a>
+        </div>
+    </div>
+
+    <div class="section-title" id="schedule">📅 Thông Báo Lịch Khám Tổng Quan Hôm Nay</div>
+    <div class="schedule-panel">
+        <p style="color: #64748b; font-size: 0.95rem; margin-bottom: 15px;">Danh sách điều phối ca trực công khai của các phòng chuyên khoa trong ngày hôm nay.</p>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                <tr>
+                    <th>Bác Sĩ Phụ Trách</th>
+                    <th>Chuyên Khoa</th>
+                    <th>Phòng Khám</th>
+                    <th>Ca Làm Việc</th>
+                    <th>Trạng Thái</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><strong>PGS.TS Nguyễn Văn Thắng</strong></td>
+                    <td>Khoa Nội Tổng Hợp</td>
+                    <td>Phòng 102 - Tầng 1</td>
+                    <td><span class="badge badge-morning">Sáng (07:30 - 11:30)</span></td>
+                    <td><span class="status-active">Đang đón bệnh</span></td>
+                </tr>
+                <tr>
+                    <td><strong>ThS.BS Trần Thị Như Quỳnh</strong></td>
+                    <td>Khoa Nhi</td>
+                    <td>Phòng 205 - Tầng 2</td>
+                    <td><span class="badge badge-afternoon">Chiều (13:30 - 17:30)</span></td>
+                    <td><span class="status-active">Sẵn sàng</span></td>
+                </tr>
+                <tr>
+                    <td><strong>BS CKII Lê Hoàng Nam</strong></td>
+                    <td>Khoa Tim Mạch</td>
+                    <td>Phòng 301 - Tầng 3</td>
+                    <td><span class="badge badge-morning">Sáng (07:30 - 11:30)</span></td>
+                    <td><span class="status-active">Đang đón bệnh</span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="section-title" id="roles">🚀 Cổng Chức Năng Hệ Thống Trực Tuyến</div>
+    <div class="role-grid">
+        <div class="role-card card-patient">
+            <div>
+                <div class="icon-box bg-p">🗓️</div>
+                <h3>Dành Cho Bệnh Nhân</h3>
+                <p>Chủ động đăng ký lịch khám, đặt trước thời gian, lựa chọn chuyên khoa và bác sĩ hằng ngày hoàn toàn miễn phí.</p>
+            </div>
+            <a href="dat-lich.html" class="btn-redirect btn-p">Đăng Ký Đặt Lịch Ngay ➜</a>
+        </div>
+        <div class="role-card card-doctor">
+            <div>
+                <div class="icon-box bg-d">👨‍⚕️</div>
+                <h3>Cổng Dành Cho Bác Sĩ</h3>
+                <p>Không gian làm việc bảo mật dành cho đội ngũ y bác sĩ chuyên khoa tiếp nhận, quản lý lịch và cập nhật hồ sơ khám bệnh.</p>
+            </div>
+            <a href="login-bacsi.html" class="btn-redirect btn-d">Vào Trang Lịch Hẹn ➜</a>
+        </div>
+        <div class="role-card card-admin">
+            <div>
+                <div class="icon-box bg-a">⚙️</div>
+                <h3>Ban Quản Trị (Admin)</h3>
+                <p>Hệ thống giám sát tổng thể, điều phối cơ sở dữ liệu, quản lý tài khoản và vận hành toàn bộ luồng thông tin phòng khám.</p>
+            </div>
+            <a href="login-admin.html" class="btn-redirect btn-a">Đăng Nhập Quản Trị ➜</a>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>© 2026 Hệ Thống Quản Lý Phòng Khám Đa Khoa Hiện Đại Trực Tuyến</p>
+    <p style="margin-top: 5px; font-size: 0.8rem; color: #475569;">Bản quyền sản phẩm thuộc về SV: Nguyễn Thị Như Xuân - MSSV: 25CE059 - VKU</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Ký Đặt Lịch Khám</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body {
+            background: linear-gradient(135deg, #f0fdfa 0%, #e0f2fe 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .form-container {
+            background: white;
+            padding: 40px;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 550px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+            border: 1px solid #e2e8f0;
+        }
+        .form-title {
+            text-align: center;
+            color: #0284c7;
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #1e293b;
+            font-size: 0.9rem;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            color: #334155;
+            transition: all 0.2s;
+            outline: none;
+        }
+        .form-control:focus {
+            border-color: #0ea5e9;
+            box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.15);
+        }
+        select.form-control {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23475569'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 16px;
+        }
+        .btn-submit {
+            width: 100%;
+            background: #0ea5e9;
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2);
+            transition: all 0.2s;
+            margin-top: 10px;
+        }
+        .btn-submit:hover {
+            background: #0284c7;
+            transform: translateY(-1px);
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .back-link:hover { color: #0284c7; }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2 class="form-title">Form Đăng Ký Đặt Lịch</h2>
+
+    <form action="#" method="POST" onsubmit="alert('Đăng ký đặt lịch thành công!'); return false;">
+
+        <div class="form-group">
+            <label for="ho-ten">Họ và Tên Khách hàng:</label>
+            <input type="text" id="ho-ten" class="form-control" placeholder="Ví dụ: Nguyễn Văn A" required>
+        </div>
+
+        <div class="form-group">
+            <label for="dien-thoai">Số Điện Thoại Liên Hệ:</label>
+            <input type="tel" id="dien-thoai" class="form-control" placeholder="Ví dụ: 0912345678" required>
+        </div>
+
+        <div class="form-group">
+            <label for="chuyen-khoa">Chọn Chuyên Khoa Khám:</label>
+            <select id="chuyen-khoa" class="form-control" required>
+                <option value="">-- Chọn chuyên khoa --</option>
+                <option value="Khoa Nội Tổng Quát">Khoa Nội Tổng Quát</option>
+                <option value="Khoa Nhi">Khoa Nhi</option>
+                <option value="Khoa Tim Mạch">Khoa Tim Mạch</option>
+                <option value="Khoa Sản Phụ Khoa">Khoa Sản Phụ Khoa</option>
+                <option value="Khoa Răng Hàm Mặt">Khoa Răng Hàm Mặt</option>
+                <option value="Khoa Tai Mũi Họng">Khoa Tai Mũi Họng</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="ten-bac-si">Tên Bác Sĩ Cần Khám (Nếu có):</label>
+            <input type="text" id="ten-bac-si" class="form-control" placeholder="Bỏ trống nếu muốn hệ thống tự sắp xếp">
+        </div>
+
+        <div class="form-group">
+            <label for="ngay-kham">Ngày Hẹn Khám:</label>
+            <input type="date" id="ngay-kham" class="form-control" required>
+        </div>
+
+        <button type="submit" class="btn-submit">Xác Nhận Đặt Lịch</button>
+    </form>
+
+    <a href="index.html" class="back-link">⬅ Quay lại trang chủ</a>
+</div>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        // 1. Lấy chuỗi thông tin từ URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const doctorName = urlParams.get('doctor');
+        const department = urlParams.get('dept');
+
+        const selectDept = document.getElementById('chuyen-khoa');
+        const inputDoctor = document.getElementById('ten-bac-si');
+
+        // 2. Tự điền tên bác sĩ (nếu có)
+        if (doctorName && inputDoctor) {
+            inputDoctor.value = doctorName.trim();
+        }
+
+        // 3. Tự điền chuyên khoa (Dùng thuật toán loại bỏ khoảng trắng và chữ hoa để đối chiếu)
+        if (department && selectDept) {
+            // Biến đổi chữ nhận từ URL thành chữ thường, bỏ khoảng trắng thừa
+            const cleanTarget = department.trim().toLowerCase();
+
+            // Quét qua từng phương án chọn trong danh sách ô thả xuống
+            for (let i = 0; i < selectDept.options.length; i++) {
+                const optionText = selectDept.options[i].text.trim().toLowerCase();
+                const optionValue = selectDept.options[i].value.trim().toLowerCase();
+
+                // Nếu khớp chữ, lập tức chọn luôn dòng đó
+                if (optionText === cleanTarget || optionValue === cleanTarget) {
+                    selectDept.selectedIndex = i;
+                    break;
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
