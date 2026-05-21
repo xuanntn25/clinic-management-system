@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ Thống Quản Lý Phòng Khám Đa Khoa</title>
+    <title>Hệ Thống Quản Lý Phòng Khám Đa Khoa CLINIC Toàn Diện</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; scroll-behavior: smooth; }
 
@@ -16,7 +16,7 @@
             overflow-x: hidden;
         }
 
-        /* 1. HEADER & NAVIGATION */
+        /* HEADER & NAVIGATION */
         header {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
@@ -42,353 +42,1035 @@
         .logo-text p { font-size: 0.75rem; color: #0d9488; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
 
         .nav-container { display: flex; align-items: center; gap: 25px; }
-
         .nav-text-links { display: flex; gap: 20px; align-items: center; }
         .nav-text-links a { color: #475569; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: color 0.2s; }
         .nav-text-links a:hover { color: #0284c7; }
 
-        /* DROPDOWN MENU ĐẶT KHÁM */
-        .dropdown { position: relative; display: inline-block; }
-        .dropbtn {
-            background: #0ea5e9;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            border-radius: 12px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.2s;
-            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2);
-        }
-        .dropbtn:hover { background: #0284c7; transform: translateY(-1px); }
+        .auth-header-zone { display: flex; align-items: center; gap: 10px; }
+        .btn-login-main { background: #ffffff; color: #0ea5e9; border: 1.5px solid #0ea5e9; padding: 9px 20px; font-size: 0.9rem; font-weight: 700; border-radius: 12px; text-decoration: none; transition: all 0.2s; cursor: pointer; }
+        .btn-login-main:hover { background: #e0f2fe; transform: translateY(-1px); }
 
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            right: 0;
-            background-color: #ffffff;
-            min-width: 320px;
-            box-shadow: 0px 10px 30px rgba(15, 23, 42, 0.08);
-            border-radius: 16px;
-            margin-top: 12px;
-            overflow: hidden;
-            z-index: 1100;
-            border: 1px solid #e2e8f0;
-        }
-        .dropdown-content a {
-            color: #1e293b;
-            padding: 14px 20px;
-            text-decoration: none;
-            display: flex;
-            flex-direction: column;
-            border-bottom: 1px solid #f1f5f9;
-            transition: background 0.2s;
-        }
-        .dropdown-content a:hover { background-color: #f8fafc; }
-        .dropdown-content a strong { color: #0f172a; font-size: 0.95rem; }
-        .dropdown-content a span { color: #64748b; font-size: 0.8rem; margin-top: 4px; line-height: 1.4; }
-
-        .dropdown-footer { background: #f8fafc; padding: 12px 20px; font-size: 0.8rem; color: #64748b; text-align: center; border-top: 1px solid #edf2f7; }
-        .dropdown:hover .dropdown-content { display: block; }
-
-        .btn-login-main { background: #ffffff; color: #0ea5e9; border: 1px solid #0ea5e9; padding: 9px 18px; font-size: 0.9rem; font-weight: 700; border-radius: 12px; text-decoration: none; transition: all 0.2s; }
-        .btn-login-main:hover { background: #f0fdfa; }
+        .user-logged-box { display: none; align-items: center; gap: 12px; background: #f0fdf4; border: 1px solid #bbf7d0; padding: 6px 14px; border-radius: 14px; }
+        .user-avatar-circle { width: 35px; height: 35px; background: #16a34a; color: white; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 1.1rem; font-weight: bold; overflow: hidden; }
+        .user-avatar-circle img { width: 100%; height: 100%; object-fit: cover; }
+        .user-info-text { display: flex; flex-direction: column; text-align: left; }
+        .user-info-text .user-name { font-size: 0.85rem; font-weight: 700; color: #14532d; max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .user-info-text .user-code { font-size: 0.75rem; font-weight: 600; color: #166534; }
+        .btn-logout-mini { background: #fee2e2; color: #ef4444; border: none; padding: 6px 10px; font-size: 0.78rem; font-weight: 700; border-radius: 8px; cursor: pointer; transition: background 0.2s; }
+        .btn-logout-mini:hover { background: #fca5a5; }
 
         /* MAIN CONTAINER */
-        .main-container { max-width: 1140px; width: 100%; margin: 30px auto 60px auto; padding: 0 20px; flex: 1; }
+        .main-container { max-width: 1200px; width: 100%; margin: 30px auto 60px auto; padding: 0 20px; flex: 1; }
 
-        /* 2. BANNER HERO */
-        .hero-section {
-            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
-            border-radius: 24px; padding: 40px; margin-bottom: 40px;
-            display: flex; gap: 40px; align-items: center;
-            box-shadow: 0 10px 25px rgba(2, 132, 199, 0.05);
-        }
+        /* HERO BANNER */
+        .hero-section { background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); border-radius: 24px; padding: 40px; margin-bottom: 40px; display: flex; gap: 40px; align-items: center; box-shadow: 0 10px 25px rgba(2, 132, 199, 0.05); }
         .hero-text { flex: 1.1; }
         .hero-text h2 { font-size: 2.2rem; color: #0f172a; font-weight: 800; margin-bottom: 15px; line-height: 1.2; }
         .hero-text h2 span { color: #0284c7; }
         .hero-text p { color: #334155; font-size: 1.05rem; line-height: 1.6; margin-bottom: 25px; }
         .hero-buttons { display: flex; gap: 15px; }
-        .btn-hero-primary { background: #0ea5e9; color: white; padding: 12px 24px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 0.95rem; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3); transition: all 0.2s; }
+        .btn-hero-primary { background: #0ea5e9; color: white; padding: 12px 24px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 0.95rem; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3); transition: all 0.2s; cursor: pointer; border: none;}
         .btn-hero-primary:hover { background: #0284c7; }
-        .btn-hero-secondary { background: white; color: #334155; padding: 12px 24px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 0.95rem; border: 1px solid #cbd5e1; transition: all 0.2s; }
-        .btn-hero-secondary:hover { background: #f8fafc; }
 
         .hero-image { flex: 0.9; display: flex; justify-content: center; }
         .hero-image img { width: 100%; max-width: 440px; height: 260px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); object-fit: cover; }
 
-        /* TIÊU ĐỀ KHU VỰC */
-        .section-title { font-size: 1.4rem; font-weight: 800; color: #0f172a; margin: 40px 0 20px 0; display: flex; align-items: center; gap: 10px; }
+        .section-title { font-size: 1.4rem; font-weight: 800; color: #0f172a; margin: 40px 0 20px 0; display: flex; align-items: center; justify-content: space-between; }
 
-        /* 3. ĐỘI NGŨ BÁC SĨ */
-        .doctor-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
-        .doc-card {
-            background: white; border-radius: 20px; padding: 30px 25px; text-align: center;
-            border: 1px solid rgba(226, 232, 240, 0.8); box-shadow: 0 4px 15px rgba(15, 23, 42, 0.02);
-            transition: all 0.2s ease-in-out;
-            display: flex; flex-direction: column; justify-content: space-between;
-        }
+        /* BỘ LỌC CHUYÊN KHOA */
+        .filter-container { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 25px; background: white; padding: 15px; border-radius: 16px; border: 1px solid #e2e8f0; }
+        .filter-btn { background: #f1f5f9; color: #475569; border: none; padding: 8px 16px; border-radius: 50px; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; }
+        .filter-btn.active, .filter-btn:hover { background: #0ea5e9; color: white; }
+
+        /* ĐỘI NGŨ BÁC SĨ */
+        .doctor-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 25px; }
+        .doc-card { background: white; border-radius: 20px; padding: 25px 20px; border: 1px solid rgba(226, 232, 240, 0.8); box-shadow: 0 4px 15px rgba(15, 23, 42, 0.02); transition: all 0.2s ease-in-out; display: flex; flex-direction: column; justify-content: space-between; }
         .doc-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(2, 132, 199, 0.08); }
-        .doc-img-container { width: 110px; height: 110px; margin: 0 auto 18px auto; border-radius: 50%; overflow: hidden; border: 4px solid #f1f5f9; background: #cbd5e1; }
-        .doc-img-container img { width: 100%; height: 100%; object-fit: cover; }
-        .doc-card h4 { font-size: 1.15rem; color: #0f172a; font-weight: 700; }
-        .doc-tag { display: inline-block; padding: 4px 12px; background: #eff6ff; color: #0284c7; font-size: 0.75rem; font-weight: 700; border-radius: 50px; margin: 6px 0 12px 0; }
-        .doc-card p { font-size: 0.88rem; color: #64748b; line-height: 1.5; margin-bottom: 20px; flex-grow: 1; }
 
-        .btn-book-doc {
-            display: block; background: #ffffff; color: #0ea5e9; border: 1.5px solid #0ea5e9;
-            padding: 10px 0; border-radius: 10px; font-size: 0.9rem; font-weight: 700;
-            text-decoration: none; transition: all 0.2s;
+        .doc-header-info { display: flex; gap: 15px; align-items: center; margin-bottom: 15px; text-align: left;}
+        .doc-img-container {
+            width: 85px; height: 85px; border-radius: 50%;
+            overflow: hidden; border: 3px solid #cbd5e1; flex-shrink: 0;
         }
+        .doc-img-container img { width: 100%; height: 100%; object-fit: cover; }
+
+        .doc-card h4 { font-size: 1.05rem; color: #0f172a; font-weight: 700; margin-bottom: 2px; }
+        .doc-tag { display: inline-block; padding: 3px 10px; background: #e0f2fe; color: #0369a1; font-size: 0.75rem; font-weight: 700; border-radius: 50px; margin-bottom: 5px; width: fit-content; }
+        .doc-rating { color: #f59e0b; font-size: 0.85rem; font-weight: bold; display: flex; align-items: center; gap: 4px; }
+        .doc-rating .review-count { color: #64748b; font-weight: normal; font-size: 0.78rem; }
+
+        .doc-expertise-badge { font-size: 0.78rem; background: #f8fafc; border: 1px dashed #cbd5e1; color: #475569; padding: 8px; border-radius: 8px; margin-bottom: 12px; line-height: 1.4; min-height: 45px;}
+
+        /* ĐÁNH GIÁ (REVIEWS) KHÁCH HÀNG */
+        .doc-reviews-box { border-top: 1px dashed #e2e8f0; padding-top: 10px; margin-bottom: 15px; text-align: left;}
+        .review-title { font-size: 0.78rem; font-weight: 800; color: #475569; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.3px;}
+        .review-item { font-size: 0.78rem; color: #64748b; line-height: 1.3; background: #f8fafc; padding: 6px 10px; border-radius: 6px; margin-bottom: 4px;}
+        .review-item span { font-weight: bold; color: #334155;}
+
+        .doc-duty-time { font-size: 0.78rem; color: #059669; background: #ecfdf5; padding: 6px; border-radius: 8px; margin-bottom: 15px; font-weight: 600; text-align: center;}
+
+        .btn-book-doc { display: block; background: #ffffff; color: #0ea5e9; border: 1.5px solid #0ea5e9; padding: 10px 0; border-radius: 12px; font-size: 0.88rem; font-weight: 700; text-decoration: none; transition: all 0.2s; cursor: pointer; width: 100%; }
         .btn-book-doc:hover { background: #0ea5e9; color: white; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2); }
 
-        /* 4. BẢNG LỊCH TRỰC */
+        /* BẢNG LỊCH TRỰC */
         .schedule-panel { background: white; border-radius: 24px; padding: 35px; box-shadow: 0 10px 30px rgba(15, 23, 42, 0.02); border: 1px solid rgba(226, 232, 240, 0.8); }
         .table-responsive { width: 100%; overflow-x: auto; margin-top: 15px; }
         table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.95rem; }
         th { background: #f8fafc; color: #475569; padding: 14px 18px; font-weight: 700; border-bottom: 2px solid #e2e8f0; }
-        td { padding: 14px 18px; border-bottom: 1px solid #f1f5f9; color: #334155; }
+        td { padding: 14px 18px; border-bottom: 1px solid #f1f5f9; color: #334155; vertical-align: middle; }
         tr:hover td { background: #f8fafc; }
         .badge { padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; display: inline-block; }
         .badge-morning { background: #fff7ed; color: #c2410c; }
         .badge-afternoon { background: #eff6ff; color: #1d4ed8; }
         .status-active { color: #16a34a; font-weight: 600; display: flex; align-items: center; gap: 5px; }
-        .status-active::before { content: ''; width: 8px; height: 8px; background: #16a34a; border-radius: 50px; display: inline-block; }
+        .status-active::before { content: ''; width: 8px; height: 8px; background: #16a34a; border-radius: 50%; display: inline-block; }
 
-        /* 5. CỔNG CHỨC NĂNG 3 VAI TRÒ */
-        .role-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
-        .role-card {
-            background: white; border-radius: 20px; padding: 35px 30px;
-            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02); border: 1px solid rgba(226, 232, 240, 0.8);
-            transition: all 0.3s ease; display: flex; flex-direction: column; justify-content: space-between;
-        }
+        /* CỔNG CHỨC NĂNG HỆ THỐNG */
+        .role-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+        .role-card { background: white; border-radius: 20px; padding: 35px 30px; box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02); border: 1px solid rgba(226, 232, 240, 0.8); transition: all 0.3s ease; display: flex; flex-direction: column; justify-content: space-between; }
         .role-card:hover { transform: translateY(-5px); box-shadow: 0 12px 25px rgba(15, 23, 42, 0.06); }
         .icon-box { width: 55px; height: 55px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin-bottom: 20px; }
         .bg-p { background: #e0f2fe; color: #0284c7; }
         .bg-d { background: #d1fae5; color: #10b981; }
-        .bg-a { background: #f1f5f9; color: #64748b; }
-        .role-card h3 { font-size: 1.2rem; color: #0f172a; margin-bottom: 10px; font-weight: 700; }
-        .role-card p { color: #64748b; font-size: 0.9rem; line-height: 1.5; margin-bottom: 25px; }
+        .bg-a { background: #f3e8ff; color: #a855f7; }
+        .btn-redirect { display: block; width: 100%; padding: 12px 0; text-align: center; color: white; text-decoration: none; border-radius: 10px; font-weight: 600; font-size: 0.9rem; transition: all 0.2s; cursor: pointer; border: none;}
+        .btn-p { background: #0284c7; } .btn-p:hover { background: #0369a1; }
+        .btn-d { background: #10b981; } .btn-d:hover { background: #059669; }
+        .btn-a { background: #a855f7; } .btn-a:hover { background: #9333ea; }
 
-        .btn-redirect { display: block; width: 100%; padding: 12px 0; text-align: center; color: white; text-decoration: none; border-radius: 10px; font-weight: 600; font-size: 0.9rem; transition: all 0.2s; }
-        .btn-p { background: #0284c7; box-shadow: 0 4px 10px rgba(2, 132, 199, 0.15); } .btn-p:hover { background: #0369a1; }
-        .btn-d { background: #10b981; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.15); } .btn-d:hover { background: #059669; }
-        .btn-a { background: #334155; box-shadow: 0 4px 10px rgba(51, 65, 85, 0.15); } .btn-a:hover { background: #1e293b; }
+        /* MODAL DESIGN */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: center; z-index: 2000; }
+        .modal-box { background: white; padding: 35px; border-radius: 24px; width: 100%; max-width: 450px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); position: relative; max-height: 85vh; overflow-y: auto; text-align: center; }
+        .close-modal { position: absolute; top: 20px; right: 20px; background: #f1f5f9; border: none; width: 30px; height: 30px; border-radius: 50%; font-weight: bold; cursor: pointer; color: #64748b; display: flex; align-items: center; justify-content: center;}
+
+        /* FORMS DESIGN */
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .input-group { margin-bottom: 16px; text-align: left; }
+        .input-group label { display: block; font-size: 0.88rem; font-weight: 700; color: #334155; margin-bottom: 6px; }
+        .input-control { width: 100%; padding: 11px 14px; border: 1.5px solid #cbd5e1; border-radius: 12px; outline: none; font-size: 0.95rem; background-color: #fff; }
+        .input-control:focus { border-color: #0ea5e9; box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.12); }
+        .btn-modal-submit { width: 100%; background: #0ea5e9; color: white; border: none; padding: 14px; font-size: 0.95rem; font-weight: 700; border-radius: 12px; cursor: pointer; margin-top: 5px; }
+        .btn-modal-submit:hover { background: #0284c7; }
+
+        /* BÁC SĨ WORKSPACE */
+        .doctor-dashboard { display: none; min-height: calc(100vh - 71px); background: #f8fafc; width: 100%; flex-direction: row; }
+        .doc-sidebar { width: 280px; background: white; border-right: 1px solid #e2e8f0; padding: 25px 15px; display: flex; flex-direction: column; justify-content: space-between; }
+        .sidebar-menu { display: flex; flex-direction: column; gap: 8px; }
+        .sidebar-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; color: #475569; font-weight: 600; font-size: 0.95rem; border-radius: 12px; cursor: pointer; }
+        .sidebar-item:hover, .sidebar-item.active { background: #e0f2fe; color: #0284c7; }
+        .doc-main-content { flex: 1; padding: 30px; overflow-y: auto; }
+
+        .doctor-duty-banner {
+            background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+            color: white; padding: 22px 28px; border-radius: 18px; margin-bottom: 25px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .doc-stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 25px; }
+        .doc-stat-card { background: white; padding: 20px; border-radius: 16px; border: 1px solid #e2e8f0; display: flex; align-items: center; gap: 15px; }
+        .doc-stat-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+        .doc-stat-num { font-size: 1.6rem; font-weight: 800; color: #0f172a; }
+        .doc-stat-lbl { font-size: 0.85rem; color: #64748b; font-weight: 600; }
+        .doc-queue-section { background: white; border-radius: 18px; border: 1px solid #e2e8f0; padding: 25px; }
+
+        /* BÁC SĨ KHÁM CHI TIẾT BOX */
+        .examination-box { background: #ffffff; border: 2px solid #0ea5e9; border-radius: 18px; padding: 25px; margin-top: 25px; display: none; }
+        .cls-group { display: flex; gap: 20px; margin: 10px 0; background: #f8fafc; padding: 15px; border-radius: 10px; border: 1px dashed #cbd5e1; flex-wrap: wrap; }
+
+        /* ADMIN WORKSPACE */
+        .admin-dashboard { display: none; padding: 30px; background: #fafafa; min-height: calc(100vh - 71px); width: 100%; }
+        .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; max-width: 1300px; margin: 0 auto; }
+        .admin-box { background: white; padding: 25px; border-radius: 18px; border: 1px solid #e2e8f0; margin-bottom: 20px; }
+
+        .action-btn-mini { padding: 6px 12px; border: none; border-radius: 8px; font-weight: bold; font-size: 0.8rem; cursor: pointer; transition: 0.2s; }
+        .btn-call { background: #0ea5e9; color: white; }
+        .btn-call:hover { background: #0284c7; }
+
+        footer { background: #ffffff; padding: 25px 20px; text-align: center; font-size: 0.9rem; color: #1e293b; border-top: 1px solid #e2e8f0; margin-top: 60px; }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="logo-area">
+    <div class="logo-area" onclick="resetToHome()" style="cursor:pointer">
         <div class="logo-icon">🩺</div>
         <div class="logo-text">
-            <h1>PHÒNG KHÁM ĐA KHOA</h1>
-            <p>Hệ Thống Đặt Lịch Trực Tuyến</p>
+            <h1>PHÒNG KHÁM ĐA KHOA CHẤT LƯỢNG CAO</h1>
+            <p>Hệ Thống Phân Phối Ca Trực & Hàng Chờ Khám Thực Tế</p>
         </div>
     </div>
 
-    <div class="nav-container">
+    <div class="nav-container" id="mainNavContainer">
         <div class="nav-text-links">
             <a href="#intro">Giới thiệu</a>
             <a href="#doctors">Đội ngũ bác sĩ</a>
-            <a href="#schedule">Lịch khám hôm nay</a>
+            <a href="#schedule">Lịch trực công khai</a>
+            <a href="#patientDashboardSection" id="navPatientLink" style="display:none; color:#0d9488; font-weight:800;">🏥 Hồ Sơ Của Tôi</a>
         </div>
 
-        <div class="dropdown">
-            <button class="dropbtn">Đặt khám ▾</button>
-            <div class="dropdown-content">
-                <a href="dat-lich.html">
-                    <strong>Đặt khám theo bác sĩ</strong>
-                    <span>Lựa chọn bác sĩ đầu ngành theo yêu cầu riêng</span>
-                </a>
-                <a href="dat-lich.html">
-                    <strong>Đặt khám theo chuyên khoa</strong>
-                    <span>Nội, Nhi, Sản phụ khoa, Tai mũi họng...</span>
-                </a>
-                <a href="#">
-                    <strong>Đặt khám tổng quát định kỳ</strong>
-                    <span>Gói kiểm tra sức khỏe toàn diện cho gia đình</span>
-                </a>
-                <a href="#">
-                    <strong>Đặt lịch xét nghiệm & Tiêm chủng</strong>
-                    <span>Thực hiện nhanh chóng, nhận kết quả trực tuyến</span>
-                </a>
-                <div class="dropdown-footer">Bạn cần hỗ trợ? Gọi ngay: 1900.2805</div>
+        <div class="auth-header-zone">
+            <button id="headerBtnLogin" class="btn-login-main" onclick="openAuthModal('patient')">Đăng nhập</button>
+            <div id="headerUserBox" class="user-logged-box">
+                <div class="user-avatar-circle" id="headerUserAvatar">👤</div>
+                <div class="user-info-text">
+                    <span class="user-name" id="headerUserName">Bệnh nhân</span>
+                    <span class="user-code" id="headerUserCode">BN-000000</span>
+                </div>
+                <button class="btn-logout-mini" onclick="handleLogout()">Đăng xuất</button>
             </div>
         </div>
-
-        <a href="#roles" class="btn-login-main">Đăng nhập</a>
     </div>
 </header>
 
-<div class="main-container">
+<div class="main-container" id="homepageContent">
 
-    <section id="intro" class="hero-section">
-        <div class="hero-text">
-            <h2>Đặt lịch khám<br><span>Nhanh chóng & Dễ dàng</span></h2>
-            <p>Kết nối với hệ thống phòng khám đa khoa hiện đại, tiện nghi. Giúp bạn chủ động hoàn toàn thời gian thăm khám và chăm sóc sức khỏe tốt nhất.</p>
-            <div class="hero-buttons">
-                <a href="dat-lich.html" class="btn-hero-primary">Đặt lịch ngay</a>
-                <a href="#roles" class="btn-hero-secondary">Tìm hiểu thêm</a>
+    <section id="patientDashboardSection" style="display:none; background:white; border-radius:24px; padding:30px; margin-bottom:40px; border:2px solid #0ea5e9; box-shadow: 0 10px 25px rgba(14, 165, 233, 0.08);">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #f1f5f9; padding-bottom:15px; margin-bottom:20px;">
+            <h3 style="font-size:1.3rem; color:#0f172a; font-weight:800;">🏥 KHÔNG GIAN THEO DÕI LƯỢT KHÁM CÁ NHÂN</h3>
+            <span style="background:#e0fdf4; color:#0d9488; padding:6px 14px; border-radius:50px; font-size:0.8rem; font-weight:700;">Đồng bộ thời gian thực 🟢</span>
+        </div>
+
+        <div style="margin-bottom:25px;">
+            <h4 style="font-size:1rem; color:#0284c7; margin-bottom:10px; font-weight: 700;">📊 Lịch Hẹn, Số Thứ Tự & Vị Trí Phòng Khám Hiện Tại</h4>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Bác Sĩ Chỉ Định</th>
+                        <th>Chuyên Khoa</th>
+                        <th>Nơi Đến Khám</th>
+                        <th>Số Thứ Tự (STT)</th>
+                        <th>Triệu chứng lâm sàng</th>
+                        <th>Trạng Tái Lượt</th>
+                    </tr>
+                    </thead>
+                    <tbody id="patientCurrentAppointmentTable">
+                    </tbody>
+                </table>
             </div>
         </div>
-        <div class="hero-image">
-            <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=500&q=80" alt="Bác sĩ phòng khám tư vấn bệnh nhân" loading="lazy">
+
+        <div>
+            <h4 style="font-size:1rem; color:#0d9488; margin-bottom:10px; font-weight: 700;">📜 Toa Thuốc Điện Tử Đã Kê & Lịch Sử Khám</h4>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Bác Sĩ Chẩn Đoán</th>
+                        <th>Kết Luận Bệnh Lý</th>
+                        <th>Chỉ định Cận Lâm Sàng</th>
+                        <th>Toa Thuốc Kê Đơn</th>
+                        <th>Tổng tiền hóa đơn</th>
+                    </tr>
+                    </thead>
+                    <tbody id="patientPrescriptionHistoryTable">
+                    </tbody>
+                </table>
+            </div>
         </div>
     </section>
 
-    <div class="section-title" id="doctors">👨‍⚕️ Đội Ngũ Bác Sĩ Chuyên Môn Đầu Ngành</div>
-    <div class="doctor-grid">
-        <div class="doc-card">
-            <div>
-                <div class="doc-img-container">
-                    <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=200&h=200&q=80" alt="PGS.TS Nguyễn Văn Thắng" loading="lazy">
-                </div>
-                <h4>PGS.TS Nguyễn Văn Thắng</h4>
-                <div class="doc-tag">Khoa Nội Tổng Quát</div>
-                <p>Hơn 25 năm kinh nghiệm điều trị các bệnh lý mãn tính, nguyên Trưởng khoa tại bệnh viện Bạch Mai.</p>
+    <section id="intro" class="hero-section">
+        <div class="hero-text">
+            <h2>Gửi phiếu đăng ký trực tuyến<br><span>Bắt buộc đăng nhập hệ thống</span></h2>
+            <p>Hệ thống tiếp nhận thông tin sức khỏe hiện đại. Bệnh nhân thực hiện nộp phiếu triệu chứng lâm sàng trực tuyến, đội ngũ Admin phân phòng và cấp số thứ tự tự động xuống phòng ban bác sĩ trực ca.</p>
+            <div class="hero-buttons">
+                <a href="#doctors" class="btn-hero-primary">Nộp phiếu đăng ký khám bệnh</a>
             </div>
-            <a href="dat-lich.html?doctor=PGS.TS%20Nguy%E1%BB%85n%20V%C4%83n%20Th%E1%BA%AFng&dept=Khoa%20N%E1%BB%99i%20T%E1%BB%95ng%20Qu%C3%A1t" class="btn-book-doc">Đặt lịch với BS Thắng</a>
         </div>
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=500&q=80" alt="Bác sĩ">
+        </div>
+    </section>
 
-        <div class="doc-card">
-            <div>
-                <div class="doc-img-container">
-                    <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=200&h=200&q=80" alt="ThS.BS Trần Thị Như Quỳnh" loading="lazy">
-                </div>
-                <h4>ThS.BS Trần Thị Như Quỳnh</h4>
-                <div class="doc-tag">Khoa Nhi</div>
-                <p>Chuyên gia tâm lý và sức khỏe nhi khoa, tận tâm, có hơn 12 năm kinh nghiệm công tác tại BV Nhi Đồng.</p>
-            </div>
-            <a href="dat-lich.html?doctor=ThS.BS%20Tr%E1%BA%A7n%20Th%E1%BB%8B%20Nh%C6%B0%20Qu%E1%BB%B3nh&dept=Khoa%20Nhi" class="btn-book-doc">Đặt lịch với BS Quỳnh</a>
-        </div>
-
-        <div class="doc-card">
-            <div>
-                <div class="doc-img-container">
-                    <img src="https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=200&h=200&q=80" alt="BS CKII Lê Hoàng Nam" loading="lazy">
-                </div>
-                <h4>BS CKII Lê Hoàng Nam</h4>
-                <div class="doc-tag">Khoa Tim Mạch</div>
-                <p>Chuyên gia can thiệp tim mạch và chẩn đoán hình ảnh cao cấp, tu nghiệp nhiều năm tại Cộng hòa Pháp.</p>
-            </div>
-            <a href="dat-lich.html?doctor=BS%20CKII%20L%C3%AA%20Ho%C3%A0ng%20Nam&dept=Khoa%20Tim%20M%E1%BA%A1ch" class="btn-book-doc">Đặt lịch với BS Nam</a>
-        </div>
-
-        <div class="doc-card">
-            <div>
-                <div class="doc-img-container">
-                    <img src="https://images.unsplash.com/photo-1614608682850-e0d6ed316d47?auto=format&fit=crop&w=200&h=200&q=80" alt="ThS.BS Nguyễn Hoài An" loading="lazy">
-                </div>
-                <h4>ThS.BS Nguyễn Hoài An</h4>
-                <div class="doc-tag">Khoa Sản Phụ Khoa</div>
-                <p>Chuyên khoa quản lý thai kỳ nguy cơ cao và tư vấn sức khỏe sinh sản toàn diện cho phái nữ.</p>
-            </div>
-            <a href="dat-lich.html?doctor=ThS.BS%20Nguy%E1%BB%85n%20Ho%C3%A0i%20An&dept=Khoa%20S%E1%BA%A3n%20Ph%E1%BB%A5%20Khoa" class="btn-book-doc">Đặt lịch với BS An</a>
-        </div>
-
-        <div class="doc-card">
-            <div>
-                <div class="doc-img-container">
-                    <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=200&h=200&q=80" alt="BS CK I Phạm Minh Hải" loading="lazy">
-                </div>
-                <h4>BS CK I Phạm Minh Hải</h4>
-                <div class="doc-tag">Khoa Răng Hàm Mặt</div>
-                <p>Chuyên gia thẩm mỹ răng sứ, niềng răng kỹ thuật cao và phẫu thuật chỉnh hình hàm mặt phức tạp.</p>
-            </div>
-            <a href="dat-lich.html?doctor=BS%20CK%20I%20Ph%E1%BA%A1m%20Minh%20H%E1%BA%A3i&dept=Khoa%20R%C4%83ng%20H%C3%A0m%20M%E1%BA%B7t" class="btn-book-doc">Đặt lịch với BS Hải</a>
-        </div>
-
-        <div class="doc-card">
-            <div>
-                <div class="doc-img-container">
-                    <img src="https://images.unsplash.com/photo-1637059824899-a441006a6875?auto=format&fit=crop&w=200&h=200&q=80" alt="ThS.BS Hoàng Lê Minh" loading="lazy">
-                </div>
-                <h4>ThS.BS Hoàng Lê Minh</h4>
-                <div class="doc-tag">Khoa Tai Mũi Họng</div>
-                <p>Chuyên khám, nội soi và điều trị các bệnh lý viêm xoang, thanh quản mạn tính ở cả người lớn và trẻ em.</p>
-            </div>
-            <a href="dat-lich.html?doctor=ThS.BS%20Ho%C3%A0ng%20L%C3%AA%20Minh&dept=Khoa%20Tai%20M%C5%A9i%20H%E1%BB%8Dng" class="btn-book-doc">Đặt lịch với BS Minh</a>
-        </div>
+    <div class="section-title" id="doctors">
+        <span>👨‍⚕️ Đội Ngũ Bác Sĩ Chuyên Khoa Phòng Khám</span>
     </div>
 
-    <div class="section-title" id="schedule">📅 Thông Báo Lịch Khám Tổng Quan Hôm Nay</div>
+    <div class="filter-container" id="specialtyFilterContainer"></div>
+
+    <div class="doctor-grid" id="doctorCardsGrid"></div>
+
+    <div class="section-title" id="schedule">📅 Lịch Trực Công Khai Do Admin Phân Công</div>
     <div class="schedule-panel">
-        <p style="color: #64748b; font-size: 0.95rem; margin-bottom: 15px;">Danh sách điều phối ca trực công khai của các phòng chuyên khoa trong ngày hôm nay.</p>
         <div class="table-responsive">
             <table>
                 <thead>
                 <tr>
                     <th>Bác Sĩ Phụ Trách</th>
                     <th>Chuyên Khoa</th>
-                    <th>Phòng Khám</th>
+                    <th>Phòng Khám Chỉ Định</th>
                     <th>Ca Làm Việc</th>
-                    <th>Trạng Thái</th>
+                    <th>Trạng Thái Ca</th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr>
-                    <td><strong>PGS.TS Nguyễn Văn Thắng</strong></td>
-                    <td>Khoa Nội Tổng Hợp</td>
-                    <td>Phòng 102 - Tầng 1</td>
-                    <td><span class="badge badge-morning">Sáng (07:30 - 11:30)</span></td>
-                    <td><span class="status-active">Đang đón bệnh</span></td>
-                </tr>
-                <tr>
-                    <td><strong>ThS.BS Trần Thị Như Quỳnh</strong></td>
-                    <td>Khoa Nhi</td>
-                    <td>Phòng 205 - Tầng 2</td>
-                    <td><span class="badge badge-afternoon">Chiều (13:30 - 17:30)</span></td>
-                    <td><span class="status-active">Sẵn sàng</span></td>
-                </tr>
-                <tr>
-                    <td><strong>BS CKII Lê Hoàng Nam</strong></td>
-                    <td>Khoa Tim Mạch</td>
-                    <td>Phòng 301 - Tầng 3</td>
-                    <td><span class="badge badge-morning">Sáng (07:30 - 11:30)</span></td>
-                    <td><span class="status-active">Đang đón bệnh</span></td>
-                </tr>
-                </tbody>
+                <tbody id="publicScheduleTableBody"></tbody>
             </table>
         </div>
     </div>
 
-    <div class="section-title" id="roles">🚀 Cổng Chức Năng Hệ Thống Trực Tuyến</div>
+    <div class="section-title" id="roles">🚀 Cổng Chức NĂng Phân Hệ (Dữ liệu mồi có sẵn)</div>
     <div class="role-grid">
-        <div class="role-card card-patient">
+        <div class="role-card">
             <div>
                 <div class="icon-box bg-p">🗓️</div>
-                <h3>Dành Cho Bệnh Nhân</h3>
-                <p>Chủ động đăng ký lịch khám, đặt trước thời gian, lựa chọn chuyên khoa và bác sĩ hằng ngày hoàn toàn miễn phí.</p>
+                <h3>Cổng Bệnh Nhân</h3>
+                <p>Nơi bệnh nhân lấy số thứ tự, theo dõi hàng chờ và tải đơn thuốc điện tử cá nhân.</p>
             </div>
-            <a href="dat-lich.html" class="btn-redirect btn-p">Đăng Ký Đặt Lịch Ngay ➜</a>
+            <button onclick="openAuthModal('patient')" class="btn-redirect btn-p">Truy Cập Cổng Bệnh Nhân ➜</button>
         </div>
-        <div class="role-card card-doctor">
+        <div class="role-card">
             <div>
                 <div class="icon-box bg-d">👨‍⚕️</div>
-                <h3>Cổng Dành Cho Bác Sĩ</h3>
-                <p>Không gian làm việc bảo mật dành cho đội ngũ y bác sĩ chuyên khoa tiếp nhận, quản lý lịch và cập nhật hồ sơ khám bệnh.</p>
+                <h3>Cổng Bác Sĩ</h3>
+                <p>Xem lịch trực Admin phân công và quản lý tiến độ: Chuẩn bị khám, Đang khám, Đã hoàn tất.</p>
             </div>
-            <a href="login-bacsi.html" class="btn-redirect btn-d">Vào Trang Lịch Hẹn ➜</a>
+            <button onclick="openAuthModal('doctor')" class="btn-redirect btn-d">Vào Trang Lịch Hẹn Bác Sĩ ➜</button>
         </div>
-        <div class="role-card card-admin">
+        <div class="role-card">
             <div>
                 <div class="icon-box bg-a">⚙️</div>
-                <h3>Ban Quản Trị (Admin)</h3>
-                <p>Hệ thống giám sát tổng thể, điều phối cơ sở dữ liệu, quản lý tài khoản và vận hành toàn bộ luồng thông tin phòng khám.</p>
+                <h3>Cổng Ban Điều Hành (Admin)</h3>
+                <p>Duyệt phiếu khám bệnh nhân, chỉ định phân phòng và điều hướng luồng người bệnh.</p>
             </div>
-            <a href="login-admin.html" class="btn-redirect btn-a">Đăng Nhập Quản Trị ➜</a>
+            <button onclick="openAuthModal('admin')" class="btn-redirect btn-a">Quản Lý Hệ Thống Admin ➜</button>
         </div>
     </div>
 </div>
 
+<div id="bookingFormSection" class="main-container" style="display:none; max-width: 650px; background: white; padding: 35px; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; margin-top: 40px; margin-bottom: 40px;">
+    <div style="text-align: center; margin-bottom: 25px;">
+        <h2 style="font-size: 1.5rem; color: #0f172a; font-weight: 800;">📝 PHIẾU ĐĂNG KÝ KHÁM BỆNH NHANH</h2>
+        <p style="color: #64748b; font-size: 0.9rem; margin-top: 5px;">Thông tin sẽ được đồng bộ trực tiếp tới bộ phận phân phòng của Admin</p>
+    </div>
+    <form onsubmit="submitBookingForm(event)">
+        <div class="input-group">
+            <label>Bác Sĩ Chỉ Định Chọn</label>
+            <input type="text" id="formDoctorName" class="input-control" readonly style="background: #f1f5f9; font-weight: 600;">
+        </div>
+        <div class="input-group">
+            <label>Chuyên Khoa Phòng Ban</label>
+            <input type="text" id="formSpecialty" class="input-control" readonly style="background: #f1f5f9; font-weight: 600;">
+        </div>
+        <div class="form-row">
+            <div class="input-group">
+                <label>Họ Và Tên Bệnh Nhân *</label>
+                <input type="text" id="formPatientName" class="input-control" required readonly style="background: #f1f5f9; text-transform: uppercase;">
+            </div>
+            <div class="input-group">
+                <label>Số Điện Thoại Liên Hệ *</label>
+                <input type="tel" id="formPatientPhone" class="input-control" required placeholder="Ví dụ: 0912345678">
+            </div>
+        </div>
+        <div class="input-group">
+            <label>Mô Tả Triệu Chứng Lâm Sàng / Nhu Cầu Khám *</label>
+            <textarea id="formPatientSymptoms" class="input-control" rows="4" required placeholder="Ghi rõ triệu chứng hiện tại để Admin phân phòng chính xác." style="resize: none; font-family: inherit;"></textarea>
+        </div>
+        <div style="display: flex; gap: 15px; margin-top: 25px;">
+            <button type="button" onclick="cancelBooking()" class="btn-hero-secondary" style="flex: 1; padding: 12px; text-align: center; border-radius: 12px; font-weight: 700; cursor: pointer; border: 1px solid #cbd5e1;">Hủy Bỏ</button>
+            <button type="submit" class="btn-modal-submit" style="flex: 2; margin-top: 0;">Xác Nhận Đăng Ký Lịch Hẹn</button>
+        </div>
+    </form>
+</div>
+
+<div id="doctorWorkspace" class="doctor-dashboard">
+    <div class="doc-sidebar">
+        <div class="sidebar-menu">
+            <div style="font-size: 0.8rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom: 15px;">Phân Hệ Bác Sĩ</div>
+            <div class="sidebar-item active" id="menu-doc-queue" onclick="switchDocPanel('patients')">👥 Bệnh nhân của tôi</div>
+            <div class="sidebar-item" id="menu-doc-history" onclick="switchDocPanel('history')">📜 Nhật ký kê đơn thuốc</div>
+        </div>
+        <button class="btn-logout-mini" onclick="handleLogout()" style="width: 100%; padding: 12px;">Đăng xuất Bác sĩ</button>
+    </div>
+
+    <div class="doc-main-content">
+        <div id="docPanelPatients">
+            <div class="doctor-duty-banner">
+                <div>
+                    <h2 style="font-size: 1.5rem; font-weight: 800;" id="docWorkspaceTitle">Bác sĩ phụ trách: ---</h2>
+                    <p style="font-size: 0.95rem; opacity: 0.9; margin-top: 4px; font-weight: 600;" id="docWorkspaceSubtitle">📍 Vị trí trực: ---</p>
+                </div>
+                <div style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 12px; font-weight: 700; font-size: 0.9rem; border: 1px solid rgba(255,255,255,0.3)">Trạng thái trực: Đang mở 🟢</div>
+            </div>
+
+            <div class="doc-stats-grid">
+                <div class="doc-stat-card">
+                    <div class="doc-stat-icon" style="background:#e0f2fe; color:#0284c7">⏳</div>
+                    <div><div class="doc-stat-num" id="docWaitingNum">0</div><div class="doc-stat-lbl">Chuẩn bị / Đang chờ khám</div></div>
+                </div>
+                <div class="doc-stat-card">
+                    <div class="doc-stat-icon" style="background:#fef08a; color:#a16207">⚡</div>
+                    <div><div class="doc-stat-num" id="docServingNum">0</div><div class="doc-stat-lbl">Đang trong ca khám</div></div>
+                </div>
+                <div class="doc-stat-card">
+                    <div class="doc-stat-icon" style="background:#d1fae5; color:#065f46">✅</div>
+                    <div><div class="doc-stat-num" id="docDoneNum">0</div><div class="doc-stat-lbl">Đã hoàn tất ca</div></div>
+                </div>
+            </div>
+
+            <div class="doc-queue-section">
+                <h3 style="margin-bottom: 15px; font-size: 1.1rem; font-weight: 800; color: #1e293b;">📋 QUẢN LÝ TIẾN ĐỘ KHÁM CỦA BỆNH NHÂN TRONG PHÒNG</h3>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>STT Lượt</th>
+                            <th>Mã BN</th>
+                            <th>Tên Bệnh Nhân</th>
+                            <th>Triệu chứng ghi nhận</th>
+                            <th>Trạng thái khám</th>
+                            <th>Thao Tác Điều Trị</th>
+                        </tr>
+                        </thead>
+                        <tbody id="doctorQueueTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="examinationBox" class="examination-box">
+                <h3 style="color:#0ea5e9; font-weight:800; margin-bottom: 15px; text-transform: uppercase;">🩺 LẬP PHÁC ĐỒ ĐIỀU TRỊ CHUYÊN SÂU</h3>
+                <p style="font-weight:700; margin-bottom:15px;" id="examPatientName">Đang khám cho bệnh nhân: </p>
+
+                <div class="input-group">
+                    <label>Kết luận chẩn đoán bệnh lý *</label>
+                    <input type="text" id="examDiagnosis" class="input-control" placeholder="Ví dụ: Viêm họng cấp, suy nhược cơ thể">
+                </div>
+
+                <div class="input-group">
+                    <label style="color:#0d9488;">🔬 Chỉ định Cận Lâm Sàng thực hiện:</label>
+                    <div class="cls-group">
+                        <label><input type="checkbox" class="cls-calc" data-price="250000" onchange="calculateInvoiceTotal()"> Siêu âm màu (+250.000đ)</label>
+                        <label><input type="checkbox" class="cls-calc" data-price="300000" onchange="calculateInvoiceTotal()"> Chụp X-Quang (+300.000đ)</label>
+                        <label><input type="checkbox" class="cls-calc" data-price="180000" onchange="calculateInvoiceTotal()"> Xét nghiệm máu (+180.000đ)</label>
+                        <label><input type="checkbox" class="cls-calc" data-price="150000" onchange="calculateInvoiceTotal()"> Nội soi chuyên khoa (+150.000đ)</label>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Bốc thuốc / Đơn thuốc kê chi tiết *</label>
+                    <textarea id="examPrescription" class="input-control" rows="3" placeholder="Ghi rõ tên thuốc, số lượng và liều dùng uống..." style="resize:none; font-family:inherit;"></textarea>
+                </div>
+
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top: 20px;">
+                    <div style="font-weight:700; font-size:1.1rem; color:#475569;">
+                        Tổng tiền hóa đơn (đ): <span id="examTotalInvoice" style="color:#dd6b20; font-size:1.4rem;">200.000đ</span>
+                    </div>
+                    <button class="btn-modal-submit" onclick="submitClinicalTreatment()" style="width:auto; padding: 12px 25px;">✓ KÝ SỐ XUẤT ĐƠN THUỐC</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="docPanelHistory" style="display:none;">
+            <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 15px;">📜 Toa Thuốc Điện Tử Đã Phát Hành</h2>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Tên Bệnh Nhân</th>
+                        <th>Chẩn Đoán</th>
+                        <th>Cận Lâm Sàng</th>
+                        <th>Chi Tiết Đơn Thuốc</th>
+                        <th>Thành Tiền</th>
+                    </tr>
+                    </thead>
+                    <tbody id="docHistoryTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="adminWorkspace" class="admin-dashboard">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px;">
+        <div>
+            <h2 style="font-size:1.6rem; font-weight:800; color:#0f172a;">🛠️ Trung Tâm Điều Hành Phòng Khám (Admin)</h2>
+            <p style="color:#64748b; font-size:0.9rem">Phê duyệt phân phòng cho bệnh nhân (Chuẩn bị khám) và theo dõi bệnh nhân đã vào phòng.</p>
+        </div>
+        <button class="btn-logout-mini" onclick="handleLogout()" style="padding:10px 20px;">Đăng xuất Admin</button>
+    </div>
+
+    <div class="admin-grid">
+        <div class="admin-box" style="border-left: 5px solid #eab308; background:#fffdfa;">
+            <h3 style="font-size:1.1rem; font-weight:800; color:#b45309; margin-bottom:12px;">📥 PHIẾU ĐĂNG KÝ CHỜ DUYỆT (CHUẨN BỊ KHÁM)</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Tên Bệnh Nhân</th>
+                        <th>SĐT</th>
+                        <th>Triệu chứng</th>
+                        <th>Bác sĩ yêu cầu</th>
+                        <th>Hành Động</th>
+                    </tr>
+                    </thead>
+                    <tbody id="adminQueueTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="admin-box" style="border-left: 5px solid #10b981;">
+            <h3 style="font-size:1.1rem; font-weight:800; color:#065f46; margin-bottom:12px;">📋 DANH SÁCH BỆNH NHÂN ĐÃ PHÂN PHÒNG (ĐANG & ĐÃ KHÁM)</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Mã BN</th>
+                        <th>Tên Bệnh Nhân</th>
+                        <th>Phòng Chỉ Định</th>
+                        <th>Trạng Thái</th>
+                    </tr>
+                    </thead>
+                    <tbody id="adminApprovedTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="authModalOverlay">
+    <div class="modal-box">
+        <button class="close-modal" onclick="closeAuthModal()">&times;</button>
+        <h3 id="authModalTitle" style="font-size: 1.3rem; font-weight: bold; margin-bottom: 20px; color:#0f172a;">Đăng Nhập Hệ Thống</h3>
+        <form onsubmit="handleAuthSubmit(event)">
+            <input type="hidden" id="authRoleType" value="">
+            <div class="input-group">
+                <label id="authLabelUser">Tài khoản / Mã định danh *</label>
+                <input type="text" id="authUsername" class="input-control" required>
+            </div>
+            <div class="input-group">
+                <label>Mật mã bảo mật điện tử *</label>
+                <input type="password" class="input-control" required value="123456">
+            </div>
+            <button type="submit" class="btn-modal-submit">Xác Nhận Đăng Nhập</button>
+        </form>
+    </div>
+</div>
+
 <footer>
-    <p>© 2026 Hệ Thống Quản Lý Phòng Khám Đa Khoa Hiện Đại Trực Tuyến</p>
-    <p style="margin-top: 5px; font-size: 0.8rem; color: #475569;">Bản quyền sản phẩm thuộc về SV: Nguyễn Thị Như Xuân - MSSV: 25CE059 - VKU</p>
+    <p>© 2026 Hệ Thống Quản Lý Phòng Khám Đa Khoa Toàn Diện - Ứng Dụng Phân Phối Ca Trực Lượt Điện Tử</p>
 </footer>
+
+<script>
+    // 1. CƠ SỞ DỮ LIỆU BÁC SĨ VỚI ẢNH CHÂN DUNG KHÔNG LỖI & PHẦN ĐÁNH GIÁ (REVIEWS) CHI TIẾT
+    const doctorsDatabase = [
+        {
+            id: "doc_quynh",
+            name: "ThS.BS Trần Thị Như Quỳnh",
+            specialty: "Khoa Nhi",
+            rating: "4.9",
+            reviewsCount: "120",
+            strength: "Nhi khoa tổng quát, hen phế quản trẻ em",
+            shift: "Sáng (07:30 - 11:30)",
+            room: "Phòng P.201 (Tầng 2)",
+            img: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=300&h=300",
+            reviews: [
+                { user: "Chị Linh (Mẹ bé Bo)", comment: "Bác sĩ Quỳnh dỗ trẻ con rất khéo, kê đơn thuốc uống 2 ngày là bé đỡ ho ngay." },
+                { user: "Anh Tuấn", comment: "Nhiệt tình, giải thích cặn kẽ về bệnh hen của trẻ." }
+            ]
+        },
+        {
+            id: "doc_khang",
+            name: "BSCKI. Nguyễn Minh Khang",
+            specialty: "Khoa Nội Tổng Hợp",
+            rating: "4.8",
+            reviewsCount: "95",
+            strength: "Tim mạch, tiểu đường, huyết áp cao",
+            shift: "Chiều (13:30 - 17:30)",
+            room: "Phòng P.105 (Tầng 1)",
+            img: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&q=80&w=300&h=300",
+            reviews: [
+                { user: "Bác Hùng (65 tuổi)", comment: "Khám bệnh rất cẩn thận, đo huyết áp dặn dò chế độ ăn uống kĩ lưỡng." },
+                { user: "Nguyễn Thảo", comment: "Bác sĩ chuyên môn tốt, trị tiểu đường rất mát tay." }
+            ]
+        },
+        {
+            id: "doc_lan",
+            name: "BSCKII. Lê Thị Mai Lan",
+            specialty: "Sản Phụ Khoa",
+            rating: "5.0",
+            reviewsCount: "210",
+            strength: "Quản lý thai kỳ, tầm soát dị tật thai nhi",
+            shift: "Sáng (07:30 - 11:30)",
+            room: "Phòng P.302 (Tầng 3)",
+            img: "https://images.unsplash.com/photo-1594824813573-246434e33963?auto=format&fit=crop&q=80&w=300&h=300",
+            reviews: [
+                { user: "Minh Anh", comment: "Theo bác Lan suốt cả thai kỳ, bác siêu âm siêu kỹ và nhẹ nhàng." }
+            ]
+        },
+        {
+            id: "doc_duc",
+            name: "ThS.BS Nguyễn Minh Đức",
+            specialty: "Khoa Tai Mũi Họng",
+            rating: "4.7",
+            reviewsCount: "88",
+            strength: "Nội soi TMH, viêm xoang mạn tính",
+            shift: "Chiều (13:30 - 17:30)",
+            room: "Phòng P.108 (Tầng 1)",
+            img: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&q=80&w=300&h=300",
+            reviews: [
+                { user: "Lê Nam", comment: "Nội soi tai mũi họng êm, không bị thốn rát." }
+            ]
+        }
+    ];
+
+    // 2. DANH SÁCH BỆNH NHÂN TRƯỚC (Đủ các trạng thái: Chuẩn bị, Đang khám, Đã khám xong)
+    let appointments = [
+        // Ca đã xong
+        { id: "BN-239105", patientName: "LÊ HOÀNG NAM", phone: "0987445566", symptoms: "Rối loạn tiêu hóa kéo dài 2 ngày", doctorRequested: "ThS.BS Trần Thị Như Quỳnh", specialty: "Khoa Nhi", status: "Hoàn tất khám", stt: "01", room: "Phòng P.201 (Tầng 2)" },
+        // Ca đang khám
+        { id: "BN-442180", patientName: "HOÀNG MINH QUÂN", phone: "0934112233", symptoms: "Bé ho có đờm, sốt nhẹ về chiều", doctorRequested: "ThS.BS Trần Thị Như Quỳnh", specialty: "Khoa Nhi", status: "Bác sĩ đang khám...", stt: "02", room: "Phòng P.201 (Tầng 2)" },
+        // Ca chuẩn bị / đang chờ khám
+        { id: "BN-885912", patientName: "NGUYỄN KHÁNH AN", phone: "0912883344", symptoms: "Phát ban đỏ toàn thân, ngứa ngáy khó chịu", doctorRequested: "ThS.BS Trần Thị Như Quỳnh", specialty: "Khoa Nhi", status: "Đang chờ khám", stt: "03", room: "Phòng P.201 (Tầng 2)" },
+
+        // Ca của bác sĩ Khang
+        { id: "BN-102394", patientName: "PHẠM VĂN ĐỨC", phone: "0905667788", symptoms: "Tức ngực, khó thở nhẹ khi leo cầu thang", doctorRequested: "BSCKI. Nguyễn Minh Khang", specialty: "Khoa Nội Tổng Hợp", status: "Đang chờ khám", stt: "01", room: "Phòng P.105 (Tầng 1)" },
+
+        // Ca chuẩn bị khám (Nằm bên Admin chờ duyệt)
+        { id: "BN-304192", patientName: "TRẦN VĂN HÙNG", phone: "0911554433", symptoms: "Đau rát họng, nuốt vướng, khàn tiếng", doctorRequested: "ThS.BS Nguyễn Minh Đức", specialty: "Khoa Tai Mũi Họng", status: "Chờ duyệt phân phòng", stt: "--", room: "--" },
+        { id: "BN-558210", patientName: "VŨ THỊ HỒNG", phone: "0982334455", symptoms: "Khám thai định kỳ tuần thứ 24", doctorRequested: "BSCKII. Lê Thị Mai Lan", specialty: "Sản Phụ Khoa", status: "Chờ duyệt phân phòng", stt: "--", room: "--" }
+    ];
+
+    // LỊCH SỬ KÊ ĐƠN THUỐC MỒI
+    let historyPrescriptions = [
+        { patientId: "BN-239105", patientName: "LÊ HOÀNG NAM", doctorName: "ThS.BS Trần Thị Như Quỳnh", diagnosis: "Nhiễm khuẩn đường ruột cấp tính", cls: "Xét nghiệm máu (+180.000đ)", prescription: "1. Oresol 240mg - 5 gói (Pha uống thay nước)\n2. Paracetamol 150mg - 4 viên (Uống khi sốt >38.5 độ)", totalPrice: "380.000đ" }
+    ];
+
+    let currentRole = 'guest';
+    let loggedUserObj = null;
+    let selectedExamIndex = null;
+    let selectedSpecialtyFilter = "Tất cả";
+    const BASE_EXAM_PRICE = 200000;
+
+    window.onload = function() {
+        renderSpecialtyFilters();
+        renderDoctorCards();
+        renderPublicSchedule();
+    };
+
+    function renderSpecialtyFilters() {
+        const container = document.getElementById('specialtyFilterContainer');
+        const specialties = ["Tất cả", ...new Set(doctorsDatabase.map(d => d.specialty))];
+        container.innerHTML = specialties.map(spec => `
+            <button class="filter-btn ${spec === selectedSpecialtyFilter ? 'active' : ''}" onclick="filterSpecialty('${spec}')">${spec}</button>
+        `).join('');
+    }
+
+    function filterSpecialty(spec) {
+        selectedSpecialtyFilter = spec;
+        renderSpecialtyFilters();
+        renderDoctorCards();
+    }
+
+    function renderDoctorCards() {
+        const grid = document.getElementById('doctorCardsGrid');
+        grid.innerHTML = '';
+        const filteredDocs = doctorsDatabase.filter(d => selectedSpecialtyFilter === "Tất cả" || d.specialty === selectedSpecialtyFilter);
+
+        filteredDocs.forEach(doc => {
+            // Render danh sách đánh giá của từng bác sĩ
+            let reviewHtml = doc.reviews.map(r => `
+                <div class="review-item"><span>${r.user}:</span> "${r.comment}"</div>
+            `).join('');
+
+            grid.innerHTML += `
+                <div class="doc-card">
+                    <div>
+                        <div class="doc-header-info">
+                            <div class="doc-img-container"><img src="${doc.img}" alt="${doc.name}"></div>
+                            <div>
+                                <h4>${doc.name}</h4>
+                                <span class="doc-tag">${doc.specialty}</span>
+                                <div class="doc-rating">⭐ ${doc.rating} <span class="review-count">(${doc.reviewsCount} phản hồi)</span></div>
+                            </div>
+                        </div>
+                        <div class="doc-expertise-badge"><strong>Thế mạnh:</strong> ${doc.strength}</div>
+
+                        <div class="doc-reviews-box">
+                            <div class="review-title">💬 Bệnh nhân đánh giá:</div>
+                            ${reviewHtml}
+                        </div>
+
+                        <div class="doc-duty-time">📅 Ca Trực: ${doc.shift}</div>
+                    </div>
+                    <button class="btn-book-doc" onclick="handleBookDoctorClick('${doc.name}', '${doc.specialty}')">Chọn Bác Sĩ & Đăng Ký</button>
+                </div>
+            `;
+        });
+    }
+
+    function renderPublicSchedule() {
+        const tbody = document.getElementById('publicScheduleTableBody');
+        tbody.innerHTML = doctorsDatabase.map(doc => `
+            <tr>
+                <td><strong>${doc.name}</strong></td>
+                <td>${doc.specialty}</td>
+                <td><strong style="color:#0ea5e9;">${doc.room}</strong></td>
+                <td><span class="badge ${doc.shift.includes('Sáng') ? 'badge-morning' : 'badge-afternoon'}">${doc.shift}</span></td>
+                <td><span class="status-active">Đang Trực</span></td>
+            </tr>
+        `).join('');
+    }
+
+    function handleBookDoctorClick(docName, specialty) {
+        if (currentRole !== 'patient' || !loggedUserObj) {
+            alert("⚠️ Yêu cầu hệ thống: Bạn phải ĐĂNG NHẬP bằng tài khoản Bệnh nhân mới có quyền điền phiếu khám!");
+            openAuthModal('patient');
+            return;
+        }
+        openBookingForm(docName, specialty);
+    }
+
+    function openBookingForm(docName, specialty) {
+        document.getElementById('formDoctorName').value = docName;
+        document.getElementById('formSpecialty').value = specialty;
+        document.getElementById('formPatientName').value = loggedUserObj.name;
+        document.getElementById('homepageContent').style.display = 'none';
+        document.getElementById('bookingFormSection').style.display = 'block';
+        window.scrollTo(0,0);
+    }
+
+    function cancelBooking() { resetToHome(); }
+
+    function submitBookingForm(e) {
+        e.preventDefault();
+        const pName = document.getElementById('formPatientName').value;
+        const pPhone = document.getElementById('formPatientPhone').value.trim();
+        const pSymptoms = document.getElementById('formPatientSymptoms').value.trim();
+        const docName = document.getElementById('formDoctorName').value;
+        const specialty = document.getElementById('formSpecialty').value;
+
+        const newApp = {
+            id: loggedUserObj.id,
+            patientName: pName,
+            phone: pPhone,
+            symptoms: pSymptoms,
+            doctorRequested: docName,
+            specialty: specialty,
+            status: 'Chờ duyệt phân phòng',
+            stt: '--',
+            room: '--'
+        };
+
+        appointments.push(newApp);
+        alert(`Nộp phiếu thành công!\nHồ sơ của bạn đã được chuyển vào trạng thái "Chuẩn bị khám" tại cổng Admin.`);
+
+        document.getElementById('formPatientPhone').value = '';
+        document.getElementById('formPatientSymptoms').value = '';
+
+        resetToHome();
+        refreshPatientInterface(loggedUserObj.id);
+    }
+
+    function resetToHome() {
+        document.getElementById('homepageContent').style.display = 'block';
+        document.getElementById('bookingFormSection').style.display = 'none';
+        document.getElementById('doctorWorkspace').style.display = 'none';
+        document.getElementById('adminWorkspace').style.display = 'none';
+        window.scrollTo(0,0);
+    }
+
+    function openAuthModal(role) {
+        document.getElementById('authRoleType').value = role;
+        document.getElementById('authModalOverlay').style.display = 'flex';
+
+        if (role === 'patient') {
+            document.getElementById('authModalTitle').innerText = 'Cổng Đăng Nhập Bệnh Nhân';
+            document.getElementById('authLabelUser').innerText = 'Mã Số Bệnh Nhân (Mẫu: BN-442180) *';
+            document.getElementById('authUsername').value = 'BN-442180';
+        } else if (role === 'doctor') {
+            document.getElementById('authModalTitle').innerText = 'Cổng Đăng Nhập Bác Sĩ';
+            document.getElementById('authLabelUser').innerText = 'Mã định danh Bác Sĩ (Mẫu: doc_quynh, doc_khang) *';
+            document.getElementById('authUsername').value = 'doc_quynh';
+        } else if (role === 'admin') {
+            document.getElementById('authModalTitle').innerText = 'Cổng Điều Hành Toàn Viện';
+            document.getElementById('authLabelUser').innerText = 'Tài khoản Admin *';
+            document.getElementById('authUsername').value = 'admin_clinic';
+        }
+    }
+
+    function closeAuthModal() { document.getElementById('authModalOverlay').style.display = 'none'; }
+
+    function handleAuthSubmit(e) {
+        e.preventDefault();
+        const role = document.getElementById('authRoleType').value;
+        const inputUser = document.getElementById('authUsername').value.trim();
+
+        currentRole = role;
+        closeAuthModal();
+
+        document.getElementById('headerBtnLogin').style.display = 'none';
+        document.getElementById('headerUserBox').style.display = 'flex';
+
+        document.getElementById('homepageContent').style.display = 'none';
+        document.getElementById('bookingFormSection').style.display = 'none';
+        document.getElementById('doctorWorkspace').style.display = 'none';
+        document.getElementById('adminWorkspace').style.display = 'none';
+
+        if (role === 'patient') {
+            let matchApp = appointments.find(a => a.id === inputUser || a.patientName === inputUser.toUpperCase());
+            loggedUserObj = {
+                id: matchApp ? matchApp.id : "BN-" + Math.floor(100000 + Math.random() * 900000),
+                name: matchApp ? matchApp.patientName : inputUser.toUpperCase()
+            };
+
+            document.getElementById('headerUserAvatar').innerHTML = "👤";
+            document.getElementById('headerUserName').innerText = loggedUserObj.name;
+            document.getElementById('headerUserCode').innerText = loggedUserObj.id;
+
+            document.getElementById('homepageContent').style.display = 'block';
+            document.getElementById('patientDashboardSection').style.display = 'block';
+            document.getElementById('navPatientLink').style.display = 'inline-block';
+            refreshPatientInterface(loggedUserObj.id);
+        } else if (role === 'doctor') {
+            loggedUserObj = doctorsDatabase.find(d => d.id === inputUser) || doctorsDatabase[0];
+
+            document.getElementById('headerUserAvatar').innerHTML = `<img src="${loggedUserObj.img}">`;
+            document.getElementById('headerUserName').innerText = loggedUserObj.name;
+            document.getElementById('headerUserCode').innerText = 'BÁC SĨ LÂM SÀNG';
+
+            document.getElementById('doctorWorkspace').style.display = 'flex';
+            switchDocPanel('patients');
+        } else if (role === 'admin') {
+            loggedUserObj = { name: "Quản trị viên" };
+            document.getElementById('headerUserAvatar').innerHTML = "⚙️";
+            document.getElementById('headerUserName').innerText = "ADMIN CLINIC";
+            document.getElementById('headerUserCode').innerText = 'BAN ĐIỀU HÀNH';
+
+            document.getElementById('adminWorkspace').style.display = 'block';
+            refreshAdminInterface();
+        }
+    }
+
+    function handleLogout() {
+        currentRole = 'guest'; loggedUserObj = null; selectedExamIndex = null;
+        document.getElementById('headerBtnLogin').style.display = 'block';
+        document.getElementById('headerUserBox').style.display = 'none';
+        document.getElementById('patientDashboardSection').style.display = 'none';
+        document.getElementById('navPatientLink').style.display = 'none';
+        resetToHome();
+    }
+
+    // ==================== LOGIC ADMIN ====================
+    function refreshAdminInterface() {
+        const queueTbody = document.getElementById('adminQueueTableBody');
+        const approvedTbody = document.getElementById('adminApprovedTableBody');
+        queueTbody.innerHTML = ''; approvedTbody.innerHTML = '';
+
+        appointments.forEach((app, idx) => {
+            if(app.status === 'Chờ duyệt phân phòng') {
+                queueTbody.innerHTML += `
+                    <tr>
+                        <td><strong>${app.patientName}</strong></td>
+                        <td>${app.phone}</td>
+                        <td style="font-size:0.85rem;">${app.symptoms}</td>
+                        <td style="color:#0284c7; font-weight:600;">${app.doctorRequested}</td>
+                        <td><button class="action-btn-mini btn-call" onclick="adminApproveRoom(${idx})">Duyệt Chỉ Định</button></td>
+                    </tr>
+                `;
+            } else {
+                approvedTbody.innerHTML += `
+                    <tr>
+                        <td><strong style="color:#0d9488;">${app.stt}</strong></td>
+                        <td>${app.id}</td>
+                        <td><strong>${app.patientName}</strong></td>
+                        <td><span style="color:#0284c7; font-weight:700;">${app.room}</span></td>
+                        <td><span class="badge" style="background:#e0f2fe; color:#0369a1">${app.status}</span></td>
+                    </tr>
+                `;
+            }
+        });
+    }
+
+    function adminApproveRoom(index) {
+        let currentApp = appointments[index];
+        let docObj = doctorsDatabase.find(d => d.name === currentApp.doctorRequested);
+        let countSameDoctor = appointments.filter(a => a.doctorRequested === currentApp.doctorRequested && a.status !== 'Chờ duyệt phân phòng').length + 1;
+
+        currentApp.stt = countSameDoctor < 10 ? '0' + countSameDoctor : countSameDoctor;
+        currentApp.room = docObj ? docObj.room : "Phòng tổng hợp";
+        currentApp.status = 'Đang chờ khám';
+
+        alert(`Đã duyệt! Bệnh nhân di chuyển đến: ${currentApp.room}, Số Thứ Tự: STT-${currentApp.stt}`);
+        refreshAdminInterface();
+    }
+
+    // ==================== LOGIC BÁC SĨ ====================
+    function switchDocPanel(panelName) {
+        document.getElementById('menu-doc-queue').classList.remove('active');
+        document.getElementById('menu-doc-history').classList.remove('active');
+
+        if(panelName === 'patients') {
+            document.getElementById('menu-doc-queue').classList.add('active');
+            document.getElementById('docPanelPatients').style.display = 'block';
+            document.getElementById('docPanelHistory').style.display = 'none';
+            refreshDoctorInterface();
+        } else {
+            document.getElementById('menu-doc-history').classList.add('active');
+            document.getElementById('docPanelPatients').style.display = 'none';
+            document.getElementById('docPanelHistory').style.display = 'block';
+            refreshDoctorHistoryTable();
+        }
+    }
+
+    function refreshDoctorInterface() {
+        if(!loggedUserObj) return;
+
+        document.getElementById('docWorkspaceTitle').innerText = `Bác sĩ phụ trách: ${loggedUserObj.name}`;
+        document.getElementById('docWorkspaceSubtitle').innerText = `📍 Vị trí trực: ${loggedUserObj.room} (${loggedUserObj.specialty})`;
+
+        const tbody = document.getElementById('doctorQueueTableBody');
+        tbody.innerHTML = '';
+
+        let docAppList = appointments.filter(a => a.doctorRequested === loggedUserObj.name);
+        let waitingCount = docAppList.filter(a => a.status === 'Đang chờ khám').length;
+        let servingCount = docAppList.filter(a => a.status === 'Bác sĩ đang khám...').length;
+        let doneCount = docAppList.filter(a => a.status === 'Hoàn tất khám').length;
+
+        document.getElementById('docWaitingNum').innerText = waitingCount;
+        document.getElementById('docServingNum').innerText = servingCount;
+        document.getElementById('docDoneNum').innerText = doneCount;
+
+        appointments.forEach((app, idx) => {
+            if(app.doctorRequested === loggedUserObj.name) {
+                let actionBtnHtml = '';
+
+                if(app.status === 'Đang chờ khám') {
+                    actionBtnHtml = `<button class="action-btn-mini btn-call" onclick="doctorCallPatientIn(${idx})">Mời Vào Khám</button>`;
+                } else if(app.status === 'Bác sĩ đang khám...') {
+                    actionBtnHtml = `<button class="action-btn-mini btn-done" style="background:#f59e0b; color:white;" onclick="doctorCallPatientIn(${idx})">Tiếp tục kê đơn</button>`;
+                } else {
+                    actionBtnHtml = `<span style="color:#16a34a; font-weight:700;">Đã hoàn tất khám ca ✓</span>`;
+                }
+
+                tbody.innerHTML += `
+                    <tr style="${app.status === 'Bác sĩ đang khám...' ? 'background:#f0fdf4;' : ''}">
+                        <td><strong style="color:#0ea5e9;">${app.stt}</strong></td>
+                        <td>${app.id}</td>
+                        <td><strong>${app.patientName}</strong></td>
+                        <td style="font-size:0.85rem;">${app.symptoms}</td>
+                        <td><span class="badge" style="background:${app.status === 'Bác sĩ đang khám...' ? '#fef08a' : '#e0f2fe'}; color:${app.status === 'Bác sĩ đang khám...' ? '#a16207' : '#0369a1'}">${app.status}</span></td>
+                        <td>${actionBtnHtml}</td>
+                    </tr>
+                `;
+            }
+        });
+    }
+
+    function doctorCallPatientIn(index) {
+        selectedExamIndex = index;
+        let app = appointments[index];
+
+        if (app.status === 'Đang chờ khám') { app.status = 'Bác sĩ đang khám...'; }
+        refreshDoctorInterface();
+
+        document.getElementById('examinationBox').style.display = 'block';
+        document.getElementById('examPatientName').innerText = `Đang khám cho bệnh nhân: ${app.patientName} (${app.id})`;
+        document.getElementById('examDiagnosis').value = '';
+        document.getElementById('examPrescription').value = '';
+
+        document.querySelectorAll('.cls-calc').forEach(cb => cb.checked = false);
+        calculateInvoiceTotal();
+        document.getElementById('examinationBox').scrollIntoView();
+    }
+
+    function calculateInvoiceTotal() {
+        let total = BASE_EXAM_PRICE;
+        document.querySelectorAll('.cls-calc').forEach(cb => {
+            if(cb.checked) total += parseInt(cb.getAttribute('data-price'));
+        });
+        document.getElementById('examTotalInvoice').innerText = total.toLocaleString('vi-VN') + 'đ';
+    }
+
+    function submitClinicalTreatment() {
+        if(selectedExamIndex === null) return;
+
+        const diagnosis = document.getElementById('examDiagnosis').value.trim();
+        const prescription = document.getElementById('examPrescription').value.trim();
+        const totalPriceStr = document.getElementById('examTotalInvoice').innerText;
+
+        if(!diagnosis || !prescription) {
+            alert("Vui lòng nhập Kết luận chẩn đoán và Đơn thuốc chi tiết!");
+            return;
+        }
+
+        let app = appointments[selectedExamIndex];
+        let selectedCls = [];
+        document.querySelectorAll('.cls-calc').forEach(cb => {
+            if(cb.checked) selectedCls.push(cb.parentNode.textContent.trim());
+        });
+        if(selectedCls.length === 0) selectedCls.push("Không chỉ định");
+
+        historyPrescriptions.push({
+            patientId: app.id,
+            patientName: app.patientName,
+            doctorName: loggedUserObj.name,
+            diagnosis: diagnosis,
+            cls: selectedCls.join(', '),
+            prescription: prescription,
+            totalPrice: totalPriceStr
+        });
+
+        app.status = 'Hoàn tất khám';
+        alert("✓ Đã ký số đơn thuốc điện tử!");
+        document.getElementById('examinationBox').style.display = 'none';
+        selectedExamIndex = null;
+        refreshDoctorInterface();
+    }
+
+    function refreshDoctorHistoryTable() {
+        const tbody = document.getElementById('docHistoryTableBody');
+        tbody.innerHTML = '';
+        let filteredHistory = historyPrescriptions.filter(h => h.doctorName === loggedUserObj.name);
+
+        filteredHistory.forEach(rec => {
+            tbody.innerHTML += `
+                <tr>
+                    <td><strong>${rec.patientName} (${rec.patientId})</strong></td>
+                    <td style="color:#e53e3e; font-weight:600;">${rec.diagnosis}</td>
+                    <td><span style="font-size:0.85rem;">${rec.cls}</span></td>
+                    <td style="font-family:monospace; font-size:0.85rem; white-space:pre-line;">${rec.prescription}</td>
+                    <td><strong style="color:#dd6b20;">${rec.totalPrice}</strong></td>
+                </tr>
+            `;
+        });
+    }
+
+    // ==================== LOGIC BỆNH NHÂN ====================
+    function refreshPatientInterface(patientId) {
+        const appTbody = document.getElementById('patientCurrentAppointmentTable');
+        const historyTbody = document.getElementById('patientPrescriptionHistoryTable');
+        appTbody.innerHTML = ''; historyTbody.innerHTML = '';
+
+        let myApps = appointments.filter(a => a.id === patientId || a.patientName === patientId.toUpperCase());
+
+        myApps.forEach(myApp => {
+            appTbody.innerHTML += `
+                <tr style="background:#f0fdf4;">
+                    <td><strong>${myApp.doctorRequested}</strong></td>
+                    <td><span class="doc-tag">${myApp.specialty}</span></td>
+                    <td><strong style="color:#0ea5e9;">${myApp.room}</strong></td>
+                    <td><span style="font-size:1.1rem; font-weight:800; color:#0d9488;">${myApp.stt}</span></td>
+                    <td style="font-size:0.85rem;">${myApp.symptoms}</td>
+                    <td><span style="font-weight:700; color:#0ea5e9;">${myApp.status}</span></td>
+                </tr>
+            `;
+        });
+
+        let myHistory = historyPrescriptions.filter(h => h.patientId === patientId || h.patientName === patientId.toUpperCase());
+        myHistory.forEach(h => {
+            historyTbody.innerHTML += `
+                <tr>
+                    <td><strong>${h.doctorName}</strong></td>
+                    <td style="color:#e53e3e; font-weight:700;">${h.diagnosis}</td>
+                    <td style="font-size:0.85rem; color:#475569;">${h.cls}</td>
+                    <td style="white-space:pre-line; font-size:0.88rem; background:#f8fafc; padding:10px; border-radius:6px;">${h.prescription}</td>
+                    <td><strong style="color:#dd6b20;">${h.totalPrice}</strong></td>
+                </tr>
+            `;
+        });
+    }
+</script>
+
 </body>
 </html>
